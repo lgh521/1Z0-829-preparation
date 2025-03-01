@@ -1,11 +1,9 @@
 package org.enricogiurin.ocp17.book.ch4;
 
-import org.enricogiurin.ocp17.various.helper.JarMockTest;
-
 public class UsageOfStringBuilder {
 
   public static void main(String[] args) {
-    new UsageOfStringBuilder().append();
+    new UsageOfStringBuilder().insert();
   }
 
   void notEfficient() {
@@ -33,12 +31,10 @@ public class UsageOfStringBuilder {
   //NOTE: insert() is not present in java.lang.String
   void insert() {
     StringBuilder sb = new StringBuilder("animals");
-    sb.insert(0, "--");
-    //--animals
-    System.out.println(sb);
+    sb.insert(1, "--");
+    System.out.println(sb); //    //a--nimals
     sb.insert(sb.length(), "--");
-    //--animals--
-    System.out.println(sb);
+    System.out.println(sb);  //a--nimals--
   }
 
   void delete() {
@@ -82,7 +78,6 @@ public class UsageOfStringBuilder {
     System.out.println(sb);  //01234
   }
 
-  @JarMockTest
   void append() {
     StringBuilder sb = new StringBuilder("hello");
     //append has only a single argument

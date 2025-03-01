@@ -35,6 +35,20 @@ Some future program could create a subclass of `Throwable` that does implement `
   }
 ```
 [Pattern Matching](../src/main/java/org/enricogiurin/ocp17/book/ch3/PatternMatching.java)
+
+### Pattern Matching - subtype
+Pattern variable type must be a **strict subtype** of the Type under test.
+```java
+Number number = 5;
+//this is a simple instanceof, not pattern matching
+if(number instanceof Number){}  //this is OK 
+
+//Pattern type 'Number' is the same as expression type
+//pattern variable type must be a strict subtype of Number
+//if(number instanceof Number n2){} //DOES NOT COMPILE!
+//this is ok as Long is a strict subtype Of Number
+if(number instanceof Long nL) {}  //OK
+```
 ## Switch
 ### Switch Statement
 The value of a case statement must be one of these:
@@ -51,8 +65,8 @@ The value of a case statement must be one of these:
     }
 ```
 WARNING: You always need the `case`, a part in the `default` case.
-
-Multi case. I use comma (`,`)to separate values.
+### Multi cases
+I use comma (`,`)to separate values.
 ```java
   void workOrChillOut(DayOfWeek day) {
     //with the new switch, I can have multiple cases in the same line
@@ -65,6 +79,19 @@ Multi case. I use comma (`,`)to separate values.
     }
   }
 ```
+### Multi cases - default
+`case` and `default` are separated by colon.
+```java
+int x = 7;
+switch (x){
+    case 2, 3:
+      System.out.println("2,3");
+    case 7: default: case 8, 9:
+      System.out.println("default");
+}
+```
+[strange switch](../src/main/java/org/enricogiurin/ocp17/book/ch3/usageofswitch/StrangeSwitch.java)
+
 ### Switch supported types
  - int,byte, short, char
  - Integer, Byte, Short, Character

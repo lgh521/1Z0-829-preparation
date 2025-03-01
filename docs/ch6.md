@@ -86,6 +86,14 @@ There is no override/overload when the method in the parent class is marked priv
     }
 ```
 
+### Constructors
+Constructors cannot be declared final
+```java
+public class Man {
+  public final Man() {} //DOES NOT COMPILE!
+}
+```
+
 ## Overriding a method
 ### Covariant return types
 
@@ -145,8 +153,16 @@ Polymorphism and overriding do not apply to instance variables.
 
 ## static final
 ```java
-  static final void ciao() {
-    System.out.println("ciao");
+class Parent {}
+    public static final void message() {
+    }
+}
+class Child extends Parent {
+  static void message() {  //DOES NOT COMPILE!!
+    System.out.println("ciao"); 
   }
+}
 ```
-The static method ciao() is marked final, so it cannot be hidden in the subclass.
+
+[hinding static methods](../src/main/java/org/enricogiurin/ocp17/book/ch6/HidingStaticMethods.java)
+The static method message() is marked final, so it cannot be hidden in the subclass.

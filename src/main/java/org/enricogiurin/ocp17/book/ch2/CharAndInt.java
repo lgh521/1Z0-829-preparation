@@ -1,12 +1,10 @@
 package org.enricogiurin.ocp17.book.ch2;
 
-import org.enricogiurin.ocp17.various.helper.JarMockTest;
-
 //TODO - to complete
 public class CharAndInt {
 
   public static void main(String[] args) {
-    new CharAndInt().byte2();
+    new CharAndInt().bitwiseChar();
   }
 
   void conversion() {
@@ -16,10 +14,13 @@ public class CharAndInt {
   }
 
   void unicode() {
+    //note: \u0061 means in hex, 6*16+1 = 97 (in decimal)
     char c = '\u0061';
     char d = 'a';
     System.out.println(c == d); //true
     System.out.println('\u0061');
+    int charAsInt = c;
+    System.out.println("char as int: "+charAsInt);  //97
   }
 
   void byteToChar() {
@@ -37,7 +38,6 @@ public class CharAndInt {
     System.out.println(euro);
   }
 
-  @JarMockTest
   void byte2() {
     //out of range
     //byte b = 256;  //does not compile.
@@ -52,6 +52,19 @@ public class CharAndInt {
     int cAsAnInt = c;
     // short s = c;  //does not compile
     short s2 = (short) c; // Requires explicit cast due to potential loss of information
+  }
+
+  void charToUnicode() {
+    char c = 'a';
+    String unicode = String.format("\\u%04x", (int)c);
+    System.out.println(unicode); // \u0061
+  }
+
+  void bitwiseChar() {
+    char result = 'c' | 'd';  //bitwise or
+    System.out.println(result);  //g
+    result = 'c' & 'd';  //bitwise and
+    System.out.println(result);  // `
   }
 
 }

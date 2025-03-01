@@ -5,11 +5,12 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 public class UsageOfInstant {
 
   public static void main(String[] args) {
-    new UsageOfInstant().toInstant();
+    new UsageOfInstant().parseInstant();
   }
 
   //I can use toInstant only with ZonedDateTime (not LDT)
@@ -48,11 +49,26 @@ public class UsageOfInstant {
     Instant then = now.plus(1, ChronoUnit.DAYS);
     //2024-01-08T07:47:52.101744Z
     System.out.println(then);
-
     //adding a year - throws an exception
-    //Exception in thread "main" java.time.temporal.UnsupportedTemporalTypeException: Unsupported unit: Years
-    Instant inOneYear = now.plus(1, ChronoUnit.YEARS);
-    System.out.println(inOneYear);
+    try {
+      //java.time.temporal.UnsupportedTemporalTypeException: Unsupported unit: Years
+      Instant inOneYear = now.plus(1, ChronoUnit.YEARS);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    //same as adding a week
+    try {
+      //java.time.temporal.UnsupportedTemporalTypeException: Unsupported unit: Weeks
+      now.plus(1, ChronoUnit.WEEKS);
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+  void parseInstant() {
+    Instant instant = Instant.parse("2024-03-01T14:02:30.123Z");
+    //this has no effect since Instant is immutable
+    instant.plus(1, ChronoUnit.HOURS);
+    System.out.println(instant); //2024-03-01T14:02:30Z
   }
 
 

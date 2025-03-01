@@ -5,12 +5,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.enricogiurin.ocp17.various.helper.JarMockTest;
 
 public class UsageOfComparator {
 
   public static void main(String[] args) {
-    new UsageOfComparator().naturalOrderVsReverseOrder();
+    new UsageOfComparator().negativeComparator();
   }
 
   void thenComparing() {
@@ -46,7 +45,6 @@ public class UsageOfComparator {
     return people;
   }
 
-  @JarMockTest
   void reversed() {
     Comparator<String> reversedComparator = Comparator.reverseOrder();
     List<String> list = Arrays.asList("a", "hgh", "81a", "dhY", "Ya", "Y3");
@@ -68,6 +66,19 @@ public class UsageOfComparator {
     System.out.println(mutableList);
     Collections.sort(mutableList, reverseOrder); //[9, 6, 5, 4, 3, 1]
     System.out.println(mutableList);
+  }
+
+  void negativeComparator() {
+    final List<String> list = List.of("b", "a", "1", "D");
+    ArrayList<String> arrayList = new ArrayList<>(list);
+    arrayList.sort((c1, c2) -> c1.compareTo(c2));  //[1, D, a, b]
+    System.out.println(arrayList);
+
+    //the comparators are identical
+    //(c1,c2)->c1.compareTo(c2) ---> - (c2.compareTo(c1))
+    arrayList.sort((c1, c2) -> -c2.compareTo(c1));  //[1, D, a, b]
+    System.out.println(arrayList);
+
   }
 
   record Person(int age, int weight) {

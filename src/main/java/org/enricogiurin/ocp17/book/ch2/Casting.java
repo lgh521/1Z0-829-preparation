@@ -1,5 +1,7 @@
 package org.enricogiurin.ocp17.book.ch2;
 
+import java.util.List;
+
 public class Casting {
 
   public static void main(String[] args) {
@@ -57,6 +59,36 @@ public class Casting {
     //casting a short into int
     useInt(s);
     useShort(s);
+  }
+
+  void castingPrimitiveToObject() {
+    byte b = 4;
+    short s = 5;
+    int i = 56;
+    long l = 100L;
+    float f = 4.5F;
+    double d = 5.98D;
+    char c = 'a';
+    boolean bo = false;
+
+    //all of these can be cast to Object
+    Object oB = (Object) b;
+    Object oS = (Object) s;
+    Object oI = (Object) i;
+    Object oL = (Object) l;
+    Object oF = (Object) f;
+    Object oD = (Object) d;
+    Object oC = (Object) c;
+    Object oBo = (Object) bo;
+    //inconvertible types; cannot cast 'int' to 'java.lang.Float'
+    //Float aFloat = (Float)i;  DOES NOT COMPILE
+    Number nb = (Number) b;
+    //weird but allowable
+    if (oB instanceof List) {
+    }
+    //with instanceof I cannot use primitive
+    //if(b instanceof Object){}  //does not compile
+
   }
 
   void dangerousCast() {

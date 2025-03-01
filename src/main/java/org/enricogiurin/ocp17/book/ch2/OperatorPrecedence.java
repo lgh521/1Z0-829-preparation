@@ -4,7 +4,7 @@ public class OperatorPrecedence {
 
   public static void main(String[] args) {
     OperatorPrecedence op = new OperatorPrecedence();
-    op.ternary();
+    op.logicalAndVsDivide();
   }
 
   void relational() {
@@ -15,6 +15,7 @@ public class OperatorPrecedence {
   }
 
   void logicalOperator() {
+    //it prints nothing, as it is false
     if (2 + 3 < 5 && 2 > 1) {
       System.out.println("condition is true");
     }
@@ -22,6 +23,7 @@ public class OperatorPrecedence {
 
 
   void complex() {
+    //condition true
     if (2 + 3 <= 5 && 4 + 5 >= 9 || 2 < 3) {
       System.out.println("condition is true");
     }
@@ -50,6 +52,12 @@ public class OperatorPrecedence {
     // 5++ -> 6
     // 0 - 6 = -6
     System.out.println(result); //-6
+  }
+
+  void logicalAndVsDivide() {
+    if (4 / 2 == 2 && 2 == 2) {
+      System.out.println("done");
+    }
   }
 
   void ternary() {

@@ -9,17 +9,17 @@ And no _HelloWorld.class_ being created!
 ## packages
 From project root folder
 ```shell
-$ javac  -d target/classes  ./src/main/java/org/enricogiurin/ocp17/ch1/*.java
+$ javac  -d target/classes  ./src/main/java/org/enricogiurin/ocp17/book/ch1/*.java
 
-$ java -cp target/classes org.enricogiurin.ocp17.ch1.HelloWorld
+$ java -cp target/classes org.enricogiurin.ocp17.book.ch1.HelloWorld
 ```
 We have to specify all the single packages if present.
 
 ### Alternative cp
 ```shell
-$ java -cp target/classes org.enricogiurin.ocp17.ch1.HelloWorld
-$ java -classpath target/classes org.enricogiurin.ocp17.ch1.HelloWorld
-$ java --class-path target/classes org.enricogiurin.ocp17.ch1.HelloWorld
+$ java -cp target/classes org.enricogiurin.ocp17.book.ch1.HelloWorld
+$ java -classpath target/classes org.enricogiurin.ocp17.book.ch1.HelloWorld
+$ java --class-path target/classes org.enricogiurin.ocp17.book.ch1.HelloWorld
 ```
 ## Variables
 - Local variables **need** to be initialized before to be used;
@@ -65,6 +65,16 @@ class WrongVar {
 ```
 This compiles as **var** is not a reserved key in java
 
+### var initialization
+```java
+var x;  //does not compile!
+x = 5;
+```
+### var compound declaration
+```java
+var x=5, y=6; //DOES NOT COMPILE
+```
+[Usage of var](../src/main/java/org/enricogiurin/ocp17/book/ch1/UsageOfVar.java)
 ### Garbage Collection
 ```java
  System.gc();
@@ -88,7 +98,7 @@ Incidental whitespace just happens to be there to make the code easier to read.
 You can reformat your code and change the amount of incidental whitespace without any impact on your String value.
 
 
-[Text Blocks](../src/main/java/org/enricogiurin/ocp17/book/ch1/TextBlocks.java)
+[Text Blocks](../src/main/java/org/enricogiurin/ocp17/book/ch1/textblocks/TextBlocks.java)
 ```java
 String tb = """
     Hello
@@ -96,6 +106,9 @@ String tb = """
 ```
 the code within the `"""` and `"""` is just text.   
 text blocks require a break between beginning and the end.
+
+Imagine a vertical line drawn on the leftmost non-whitespace character in your text block. 
+Everything to the left of it is **incidental whitespace**, and everything to the right is **essential whitespace**.
 ### Example
 ```java
 String s = """aaa"""; //does not compile

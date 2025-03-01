@@ -52,6 +52,7 @@ public class CollectionsOfGenericsWithWildcard {
   }
 
   void lowerBoundedWildcards() {
+    //Exception is a super class of IOException
     List<? super IOException> exceptions = new ArrayList<Exception>();
     //exceptions can be a list of:
     //- IOException or any class having IOException as super
@@ -82,6 +83,16 @@ public class CollectionsOfGenericsWithWildcard {
     //rteList.add(ex); //not even like this because it's declared as Exception (in spite is a RTE)
   }
 
+  void lowerBounded2() {
+    List<? super RuntimeException> rteList = new ArrayList<Exception>();
+    List<? super RuntimeException> rteList2 = new ArrayList<Throwable>();
+    List<? super RuntimeException> rteList3 = new ArrayList<RuntimeException>();
+    //Required type:
+    //List
+    //IllegalArgumentException is a child of RTE not one of its super classes!
+    //List<? super RuntimeException> rteList4 = new ArrayList<IllegalArgumentException>();  //DOES NOT COMPILE
+  }
+
   void lowerBoundedWildcards3() {
     //List<? super IOException> ioExceptions = new ArrayList<FileNotFoundException>();  //does not compile
     List<? super IOException> ioExceptions = new ArrayList<Exception>();  //does  compile
@@ -103,6 +114,20 @@ public class CollectionsOfGenericsWithWildcard {
     var varList = new ArrayList<>(list);
     Integer first = varList.get(0);
     System.out.println(first);
+  }
+
+  void addElementToAListWithWildCard() {
+    List<?> wildcardList = new ArrayList<String>();
+    List<? extends IOException> listExtends = new ArrayList<FileNotFoundException>();
+    List<? super IOException> listSuper = new ArrayList<Object>();
+    //I cannot add a element to a list defined as List<?>
+    //It means that the list can hold elements of an unknown type.
+    // wildcardList.add("aa");  //does not compile!
+
+    //this is also immutable
+    //listExtends.add(new FileNotFoundException())  //does not compile
+
+    listSuper.add(new FileNotFoundException()); //this compiles
   }
 
   void wrongCollectionWithGenerics() {

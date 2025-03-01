@@ -15,6 +15,26 @@ public class PatternMatching {
     }
   }
 
+
+  void sameType() {
+    Number number = 5;
+    if (number instanceof Number) {
+    }  //this is OK
+
+    //Pattern type 'Number' is the same as expression type
+    //pattern variable type must be a strict subtype of Number
+    //if(number instanceof Number n2){} //DOES NOT COMPILE!
+    //this is ok as Long is a strict subtype Of Number
+    if (number instanceof Long nL) {
+    }
+
+    Object object = new String();
+    //same case with Object
+    //if(object instanceof Object obj){}  //does not compile!
+    if (object instanceof Object) {
+    }
+  }
+
   void accessingOutOfScope(Object object) {
     if (!(object instanceof String s) || s.equals("enrico")) {
       System.out.println("bye bye");

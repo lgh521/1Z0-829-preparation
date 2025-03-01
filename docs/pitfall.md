@@ -1,19 +1,18 @@
 # Pitfalls and Tips
 ## Watch out
-- **case** is a reserved keyword in java
+- **case** is a reserved keyword in Java
 - mind the **IOException** when you use try with resources
-- JDBC: PreparedStatement will use the existing parameter set if you don’t replace it.
 - Mind the type used in lambda, there ain't auto boxing. 
 
-## I/O
+## I/O -NIO
 - mind the checked exception within lambda, example: `toRealPath()`
 - mark, check if the stream supports mark: `inputStream.markSupported()`
 - What I/O classes to use? Reader/Writer for text, Stream for primitives and String values
 - Check if the `System.out` or `System.err` is closed within the try-with-resource
 - `relativize() `needs both Path to be either absolute or relative
 - it's `System.console()` NOT ~~new Console()~~
-
-
+## I/O - IO
+- `file.delete()` returns a boolean and does not throw an exception if the file does not exist
 ## Localization
 - there ain't ~~DateFormatter~~ only `DateTimeFormatter`
 
@@ -34,6 +33,11 @@ across all threads and processes, while the synchronized classes do not.
 - Mind `forEach(System.out::println)`; not ~~forEach(System.out.println);~~
 - check if the stream ends with an Optional
 - `parallelStream()` is defined on Collection, ~~NOT on Stream~~
+- Collectors.groupingBy() - requires a Function !
+- Collectors.partitioningBy() - requires a Predicate !
+- 
+### IntStream
+- IntStream.sum() returns an int (not a long)
 
 ## Lambda
 - `var x = ()->"hello"` does not compile! - **you cannot assign a lambda to a var**
@@ -49,7 +53,7 @@ across all threads and processes, while the synchronized classes do not.
 ## Various
 - check if a field is final in the code
 - `enum`: check if the constructor is private, or protected!
-- `instanceof` : a class can always be an instance of an Interface, so the instanceOf in that case is allowed. !!!!
+- `instanceof` : a class can always be an instance of an Interface, so the instanceof in that case is allowed. !!!!
 - mind the scope of variables in the `instanceof`
 - variable names: `_` can be allowed but not as a char single: `var _` does not compile
 - multilines: check if a variable hasn't been used previously
@@ -72,6 +76,7 @@ across all threads and processes, while the synchronized classes do not.
 ## Collection
 - `Deque.offer()` insert element at the end of the queue
 - Comparator: `comparing(...).thenComparing()`
+- pop()/poll() when Deque is empty: `pop() throws java.util.NoSuchElementException` but `poll()` returns null
 
 ## Interfaces
 - default method: `Plant.super.leaves()` NOT ~~super.Plant.leaves()~~
@@ -92,9 +97,12 @@ especially with the AutoClosable resources
 - ResultSet rs: `rs.next()` NOT ~~rs.hasNext()~~
 - `ResultSet.getInt(1)` NOT ~~ResultSet.getInteger(1)~~
 - watch out the overlap of `conn.savepoint()` and `conn.rollback()`
+- PreparedStatement will use the existing/previous parameter set if you don’t replace it.
+- watch out! c`onn.prepareCall(sql)` returns a `CallableStatement` !
 
 ## Serialization
 - always check the class implements `Serializable`
 ## java.time
 - only `ZonedDateTime` has the `toInstant()` method!!
 - You cannot add Duration to LocalDate
+- Instant: you can only add days or smaller, otherwise you have exception 

@@ -42,6 +42,24 @@ public void go() {
 [Full Example](../src/main/java/org/enricogiurin/ocp17/book/ch7/interfaces/defaultmethods/InheritTwoDefaultMethods.java)
 #### Case abstract class
 [Abstract class default methods](../src/main/java/org/enricogiurin/ocp17/book/ch7/interfaces/defaultmethods/AbstractClassDefaultMethods.java)
+
+#### default conflict abstract method
+```java
+interface House {
+  default void work(){}  //default method
+}
+
+interface Office {
+  void work(); //abstract method
+}
+
+class HomeOffice implements Office, House {
+  //I am forced to implement work()!
+  @Override
+  public void work() {}
+}
+```
+[default vs abstract conflict](../src/main/java/org/enricogiurin/ocp17/book/ch7/interfaces/defaultmethods/DefaultVsAbstractConflict.java)
 ### private methods
 A private interface method **cannot** be called in a method outside the interface declaration.
 
@@ -78,23 +96,67 @@ A default method can invoke any other type of method within the interface:
 - public instance methods
 - private static methods
 - other default methods
-[](../src/main/java/org/enricogiurin/ocp17/book/ch7/interfaces/defaultmethods/DefaultMethodCallingOtherMethods.java)
 
+[DefaultMethodCallingOtherMethods](../src/main/java/org/enricogiurin/ocp17/book/ch7/interfaces/defaultmethods/DefaultMethodCallingOtherMethods.java)
+### static methods
+
+```java
+interface Certifications {
+  //public by default
+  public static void ocp17() {}
+}
+
+class MyCertifications implements Certifications {
+  public static void main(String[] args) {
+    Certifications.ocp17();  //valid
+    MyCertifications myCertifications = new MyCertifications();
+    //I cannot invoke a static method of the interface from an instance of the class which implements the interface!
+    myCertifications.ocp17();  //DOES NOT COMPILE!
+  }
+}
+```
+
+[interface with static methods](../src/main/java/org/enricogiurin/ocp17/book/ch7/interfaces/InterfaceWithStaticMethods.java)
 ## Sealed
 A sealed class requires at least one subclass to extend.   
-a sealed class needs to be declared (and compiled) in the same package as its direct subclasses.
-### Same file
-The permits clause is optional if the subclass is nested or declared in the same file.
+
+### Rules
+ - A sealed class needs to be declared in the same package or named module as their direct subclasses.
+ - Direct subclasses of a sealed classes must be either `final` or `sealed` or `non-sealed`.
+ - The permits class is optional if the classes (sealed and subclasses) are declared in the same file.
+
+#### Same file
+The `permits` clause is optional if the subclass is nested or declared in the same file.
 
 ```java
 //same file
 public sealed class Snake {}
 final class Cobra extends Snake {}
 ```
+### Sealed interfaces
+An interface can be declared sealed. The `permits` list can apply to a class that implements the interface 
+or an interface that extend the interface.   
+Then a sealed interface can be extended only by:
+- `sealed` interfaces
+- `non-sealed` interfaces.
+
+```java
+// Sealed interface
+public sealed interface Pet permits Cat, Dog, Rabbit {}
+
+// Classes permitted to implement sealed interface Pet
+public final class Cat implements Pet {}
+public final class Dog implements Pet {}
+
+// Interface permitted to extend sealed interface pet
+public non-sealed interface Rabbit extends Pet {}
+```
+[Example of sealed interface](../src/main/java/org/enricogiurin/ocp17/book/ch7/sealed/interfaces/Pet.java)
+
 ### Different files
 ```java
 public sealed class Snake permits Cobra, Viper {}
-//separated files
+//separated files, but same pacakge
 final class Cobra extends Snake {}
 non-sealed class Viper extends Snake {}
 ```
@@ -111,24 +173,15 @@ A subclass (Male) of a sealed class (HumanBeing) must be marked either `final` o
 ### Modules
 _Named Module_: which allow sealed classes and their direct subclasses in different packages, 
 provided they are in the same named module.
-### Sealed interfaces
-Permits list can apply to:
-* a class that implements the interface
-* An interface that extends the interface.
+
+### sealed nested
 ```java
-// Sealed interface
-public sealed interface Pet permits Cat, Dog, Rabbit {}
-
-// Classes permitted to implement sealed interface Pet
-public final class Cat implements Pet {}
-public final class Dog implements Pet {}
-
-// Interface permitted to extend sealed interface pet
-public non-sealed interface Rabbit extends Pet {}
+  sealed class Pet {
+    public final class Dog extends Pet {}
+  }
 ```
-[Example of sealed interface](../src/main/java/org/enricogiurin/ocp17/book/ch7/sealed/interfaces/Pet.java)
-### Sealed Classes
-The permits clause is optional if the subclass is nested or declared in the same file.
+[sealed nested](../src/main/java/org/enricogiurin/ocp17/book/ch7/sealed/SealedNested.java)
+
 ## Final
 ```java
 final class AFinal {
@@ -166,7 +219,7 @@ A compact constructor must have the same access modifiers as the record itself.
 //does not compile
 public record Name(String name) {
   Name {
-    ...
+    name="John";
   }
 }
 ```
@@ -177,7 +230,7 @@ public record Person(String firstName, String lastName) {
 
   //this is an overloaded constructor 
   public Person() {  
-    //he first line must be a call to another constructor,
+    //The first line must be a call to another constructor,
     this("Enrico", "Giurin");
   }
 }

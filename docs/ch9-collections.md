@@ -1,9 +1,18 @@
 # Collections
-## contains
+## Methods
+### Contains
 it's `Object`, not the type of the Collection!
 ```java
 boolean contains(Object o)
 ```
+### removeIf
+```java
+List<String> list = new ArrayList<>(List.of("ab", "bb", "cb"));
+boolean status = list.removeIf(s -> s.startsWith("a"));
+System.out.println(status); // true
+System.out.println(list); //["bb', "cb"]
+```
+
 ## Immutable Collections
 ```java
 List<String> list = List.of("a", "b");
@@ -40,7 +49,7 @@ list.remove(Integer.valueOf(1)); //[5, 3]
 ### Creating a List with Factory
 [List Factory](../src/main/java/org/enricogiurin/ocp17/book/ch9/CreatingListWithFactory.java)
 ## Comparator
-package: java.util
+package: `java.util`
 ```java
 int compare(T o1, T o2);
 ```
@@ -51,13 +60,15 @@ Comparator<T> reversed()
 Returns a comparator that imposes the reverse ordering of this comparator.
 
 ## Comparable
-package: java.lang
+package: `java.lang`
 ```java
 int compareTo(T o1);
 ```
 
 ## Queue
 ![Methods of Queue.png](images/Queue.png)
+
+![queue.png](images/queue-comparison.png)
 ### Main methods of Queue
 The following **throw an exception** if something go wrong:
 ```java
@@ -74,6 +85,8 @@ public E poll();
 ```
 
 ## Deque
+- LinkedList implements Deque
+- ArrayDeque implements Deque
 
 ![Deque](images/Deque.png)
 ### Main methods of Deque
@@ -95,8 +108,6 @@ public E peekLast();
 public E pollFirst();
 public E pollLast();
 ```
-
-
 [Example Deque](../src/main/java/org/enricogiurin/ocp17/book/ch9/UsageOfDeque.java)
 
 ```java
@@ -111,7 +122,15 @@ System.out.print(q.peek() + " " + q.size()); // dog 3
 ```java
 public interface Deque<E> extends Queue<E> {/**/}
 ```
+
+[DequeAsAStack](../src/main/java/org/enricogiurin/ocp17/book/ch9/DequeAsAStack.java)
+### Stack
+![Stack](images/Deque-Stack.png)
+
 #### pop() vs poll()
+When Deque is empty:
+- `pop() throws java.util.NoSuchElementException`
+- `poll()` returns null
 ```java
 Deque<String> stack = new LinkedList<>();  //empty deque
 String result = stack.poll();  //this returns null
@@ -119,9 +138,6 @@ System.out.println(result); //null
 //Exception in thread "main" java.util.NoSuchElementException
 String pop = stack.pop();
 ```
-
-### Stack
-![Stack](images/Deque-Stack.png)
 
 
 
@@ -135,10 +151,27 @@ String pop = stack.pop();
     map.forEach(biConsumer);
 ```
 
+### merge
+```java
+Map<Integer, Integer> map = new HashMap<>();
+map.put(1, null);
+///If the specified key is not already associated with a value or is associated with null, associates it with the given non-null value
+map.merge(1, 4, (v1, v2)->v1+v2);  //[1,4]
+```
+[MapMerge](../src/main/java/org/enricogiurin/ocp17/book/ch9/map/MapMerge.java)
 
+### TreeMap
+Keys added to `TreeMap` need to implement `Comparable`, as less as a `Comparator` is provided.  
 
- - LinkedList implements Deque
- - ArrayDeque implements Deque
+[Usage Of TreeMap](../src/main/java/org/enricogiurin/ocp17/book/ch9/map/UsageOfTreeMap.java)
+```java
+Map map = new TreeMap<>();
+map.put(1, "2");
+//java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.String
+map.put("hello", "2");
+System.out.println(map);
+```
+
 ## Collections and null values
 - `ArrayList`: allows null
 - `LinkedList`: allows null

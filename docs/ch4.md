@@ -1,4 +1,5 @@
 # Core APIs
+[Dates & Times](ch4-time.md)
 ## String Methods
 ### String concatenation
 1. If both operands are numeric, `+` means numeric addition. 
@@ -65,7 +66,6 @@ array ==> int[3] { 1, 2, 3 }
 
 jshell> int[] array = {1,2,3}  //anonymous array
 array ==> int[3] { 1, 2, 3 }
-
 ```
 ### Arrays declaration/creation
 ```java
@@ -81,9 +81,9 @@ int[] array2 = new int[]{1, 4}; //here I specify the values
 
 #### Multi dimensional array
 ```java
-    int[][] a3D[], a2D;
-    a3D = new int[2][2][2];  //3D array
-    a2D = new int[3][3];  //2D array
+int[][] a3D[], a2D;
+a3D = new int[2][2][2];  //3D array
+a2D = new int[3][3];  //2D array
 ```
 
 ```java
@@ -97,26 +97,26 @@ int[][] matrix3 = {{1,2}, {3}};
 
 ### mismatch
 ```java
-    String[] s1 = {"Camel", "Peacock", "Llama"};
-    String[] s2 = {"Camel", "Llama", "Peacock"};
-    String[] s3 = {"Camel", "Llama", "Peacock"};
-    int position = Arrays.mismatch(s1, s2); //first element to differ is at position 1
-    System.out.println(position);     //1
-    position = Arrays.mismatch(s2, s3); //they are identical then return -1
-    System.out.println(position);     //-1
+String[] s1 = {"Camel", "Peacock", "Llama"};
+String[] s2 = {"Camel", "Llama", "Peacock"};
+String[] s3 = {"Camel", "Llama", "Peacock"};
+int position = Arrays.mismatch(s1, s2); //first element to differ is at position 1
+System.out.println(position);     //1
+position = Arrays.mismatch(s2, s3); //they are identical then return -1
+System.out.println(position);     //-1
 ```
 ### compare
 ```java
-    int[] array1 = {1, 3, 5};
-    int[] array2 = {1, 3, 5};
-    int[] array3 = {1, 5, 5};
-    int result = Arrays.compare(array1, array2);
-    System.out.println(result);  //0  (the 2 arrays are identical)
+int[] array1 = {1, 3, 5};
+int[] array2 = {1, 3, 5};
+int[] array3 = {1, 5, 5};
+int result = Arrays.compare(array1, array2);
+System.out.println(result);  //0  (the 2 arrays are identical)
 
-    //the first element which they differ is the 2nd position (3 vs 5)
-    //In this case, we get a negative number because 3 is smaller than 5
-    result = Arrays.compare(array1, array3);
-    System.out.println(result);  //-1
+//the first element which they differ is the 2nd position (3 vs 5)
+//In this case, we get a negative number because 3 is smaller than 5
+result = Arrays.compare(array1, array3);
+System.out.println(result);  //-1
 ```
 ### Arrays Sort String (natural order)
 1. Numbers
@@ -137,7 +137,7 @@ System.out.println(position);  //-3
 ### floor & ceil
 ```java
 double floor = Math.floor(3.8); // 3.0
-double ceil = Math.ceil(3.8); // 8.0
+double ceil = Math.ceil(3.8); // 4.0
 ```
 
 ### round
@@ -152,76 +152,6 @@ int round2 round = Math.round(5.2F); //5
 ### pow
 ```java
 double pow = Math.pow(4.0, 2.0); //16.0
-```
-## Dates & Times
-```java
-LocalDateTime.now(); //2023-05-14T19:56:29.738748
-ZonedDateTime.now(); //2023-05-14T19:56:46.627004+02:00[Europe/Zurich]
-```
-### ZonedDateTime
-```shell
-2021–10–25T09:13:07.769–05:00[America/New_York]
-
-2023-12-16T14:30:00.000-05:00[America/New_York]
-```
-### GMT vs UTC
-- GMT - Greenwich Mean Time
-- UTC - Coordinated Universal Time
-
-### Duration
-```jshelllanguage
-jshell> java.time.Duration.ofSeconds(758768437)
-$54 ==> PT210769H37S
-```
-#### toString
-PT24H : starts with **PT**
-
-
-I can't use `Duration` with `LocalDate`!
-```java
-var date = LocalDate.of(2023, 1, 21);
-var days = Duration.ofDays(1);
-// Unsupported unit: Seconds
-//I can NOT use Duration with LocalDate
-//Exception in thread "main" java.time.temporal.UnsupportedTemporalTypeException: Unsupported unit: Seconds    
-System.out.println(date.plus(days));    
-```
-### Period
-```java
-//Period does not chain. Only the last method is considered!
-Period period = Period.ofYears(1).ofMonths(2).ofDays(1);
-System.out.println(period);  //P1D
-```
-The `Period` class does not have methods such as `getSeconds()`, `getMinutes()`, `getHours()`.
-
-#### toString
-P1D : starts with **P**
-
-
-### Instant
-The Instant class represents a specific moment in time in the GMT time zone.
-#### Format
-```java
-YYYY-MM-DDTHH:mm:ss.SSSZ
-```
-#### Creation
-```java
-//from ZonedDateTime
-Instant instantZRH = zdtZurich.toInstant();
-//with now()
-Instant now = Instant.now();  //2024-01-18T11:02:16.628552400Z
-```
-[Instant](../src/main/java/org/enricogiurin/ocp17/book/ch4/time/UsageOfInstant.java)
-
-#### plus
-While an Instant represents a specific moment in time using GMT, Java only allows adding or removing units of DAYS or smaller.
-```java
-    Instant now = Instant.now();
-    Instant then = now.plus(1, ChronoUnit.DAYS); //    //2024-01-08T07:47:52.101744Z
-
-    //adding a year - throws an exception
-    //Exception in thread "main" java.time.temporal.UnsupportedTemporalTypeException: Unsupported unit: Years
-    Instant inOneYear = now.plus(1, ChronoUnit.YEARS);
 ```
 
 ## Converting String to number
@@ -241,9 +171,9 @@ First, a line break is added to the end of the string if not already there.
 Second, any line breaks are converted to the `\n` format.
 
 ```java
-    var name = "1234 \n567";
-    var indent1 = name.indent(1);
-    System.out.println("#%s#".formatted(indent1));
+var name = "1234 \n567";
+var indent1 = name.indent(1);
+System.out.println("#%s#".formatted(indent1));
 ```
 It prints:
 ```shell
@@ -251,6 +181,7 @@ It prints:
  567
 #
 ```
+[indent](../src/main/java/org/enricogiurin/ocp17/book/ch4/string/BasicIndent.java)
 
 ### translateEscapes
 `\n` - new line
